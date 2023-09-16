@@ -11,7 +11,7 @@ export default function Event(props: Event) {
     return (
         <>
             <div
-                className="flex flex-col rounded-lg border border-gray-400 hover:border-gray-600 transition duration-200 w-72 cursor-pointer overflow-clip"
+                className="flex flex-col rounded-lg border border-gray-400 hover:border-gray-600 transition duration-200 cursor-pointer overflow-clip"
                 onClick={() => setOpen(true)}
             >
                 <img

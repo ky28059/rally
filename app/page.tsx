@@ -1,5 +1,6 @@
 import type {Metadata} from 'next';
 import Event from '@/app/Event';
+import Footer from '@/components/Footer';
 import {exampleEvent} from '@/app/event/[id]/page';
 
 
@@ -23,7 +24,8 @@ export default function Home() {
                     please join events please join events please join events please join events please join events
                 </div>
             </header>
-            <section className="container flex flex-wrap gap-4 py-8">
+
+            <section className="container grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] xl:grid-cols-4 gap-4 py-8">
                 <Event {...exampleEvent} />
                 <Event {...exampleEvent} />
                 <Event {...exampleEvent} />
@@ -32,6 +34,8 @@ export default function Home() {
                 <Event {...exampleEvent} />
                 <Event {...exampleEvent} />
             </section>
+
+            <Footer />
         </div>
     )
 }
