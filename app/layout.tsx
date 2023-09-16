@@ -2,6 +2,7 @@ import type {ReactNode} from 'react';
 import type {Metadata} from 'next'
 import {Inter} from 'next/font/google'
 import FirebaseProviders from '@/components/FirebaseProviders';
+import Header from '@/components/Header';
 
 import './globals.css'
 
@@ -15,10 +16,13 @@ export const metadata: Metadata = {
 
 export default function Layout(props: { children: ReactNode }) {
     return (
-        <html lang="en">
-            <body className={inter.className + ' relative'}>
+        <html lang="en" className="h-full">
+            <body className={inter.className + ' relative flex flex-col h-full'}>
                 <FirebaseProviders>
-                    {props.children}
+                    <Header />
+                    <div className="flex-grow">
+                        {props.children}
+                    </div>
                 </FirebaseProviders>
             </body>
         </html>

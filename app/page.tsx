@@ -12,10 +12,8 @@ export const metadata: Metadata = {
 
 export default function Home() {
     return (
-        <div className="">
-            <Header />
-
-            <header className="py-12 bg-black/50 text-white relative">
+        <div>
+            <section className="py-12 bg-black/50 text-white relative">
                 <img
                     src="/banner.jpg"
                     alt="Banner image"
@@ -26,7 +24,7 @@ export default function Home() {
                     please join events please join events please join events please join events please join events
                     please join events please join events please join events please join events please join events
                 </div>
-            </header>
+            </section>
 
             <section className="container grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] xl:grid-cols-4 gap-4 py-8">
                 <Event {...exampleEvent} />

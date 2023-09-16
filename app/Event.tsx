@@ -51,9 +51,9 @@ export default function Event(props: Event) {
                         {DateTime.fromISO(props.time).toLocaleString(DateTime.DATETIME_FULL)}
                     </div>
 
-                    {props.place && (<>
+                    {props.location && (<>
                         <strong className="text-gray-700">Location:</strong>
-                        <div>{props.place}</div>
+                        <div>{props.location}</div>
                     </>)}
 
                     {props.tags.length !== 0 && (<>

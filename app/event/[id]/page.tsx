@@ -29,7 +29,7 @@ export default async function EventPage({params}: {params: {id: string}}) {
                         <BsCalendar2Fill /> {DateTime.fromISO(event.time).toLocaleString(DateTime.DATETIME_FULL)}
                     </div>
                     <div className="flex gap-2 items-center">
-                        <IoMdPin /> {event.place}
+                        <IoMdPin /> {event.location}
                     </div>
                 </div>
 

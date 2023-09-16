@@ -1,9 +1,10 @@
 'use client'
 
 import {ReactNode} from 'react';
-import {useFirebaseApp, AuthProvider, FirestoreProvider, AnalyticsProvider, FirebaseAppProvider} from 'reactfire';
-import { getFirestore } from 'firebase/firestore';
-import { getAuth, OAuthProvider } from 'firebase/auth';
+import {useFirebaseApp, AuthProvider, FirestoreProvider, AnalyticsProvider, FirebaseAppProvider, StorageProvider} from 'reactfire';
+import {getFirestore} from 'firebase/firestore';
+import {getAuth, OAuthProvider} from 'firebase/auth';
+import {getStorage } from 'firebase/storage';
 // import { getAnalytics } from 'firebase/analytics';
 
 
@@ -32,6 +33,7 @@ function InnerFirebaseProviders(props: {children: ReactNode}) {
 
     // Initialize auth and functions
     const auth = getAuth(firebase);
+    const storage = getStorage(firebase);
     // const analytics = getAnalytics(firebase);
 
     // Initialize firestore with indexed db persistence
@@ -42,8 +44,11 @@ function InnerFirebaseProviders(props: {children: ReactNode}) {
     return (
         <AuthProvider sdk={auth}>
             <FirestoreProvider sdk={firestore}>
-                {/* <AnalyticsProvider sdk={analytics}> */}
+                <StorageProvider sdk={storage}>
                     {props.children}
+                </StorageProvider>
+
+                {/* <AnalyticsProvider sdk={analytics}> */}
                 {/* </AnalyticsProvider> */}
             </FirestoreProvider>
         </AuthProvider>

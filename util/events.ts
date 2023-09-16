@@ -2,7 +2,7 @@ export type Event = {
     id: string,
     title: string,
     desc: string,
-    place?: string,
+    location?: string,
     time: string, // ISO
     image?: string, // base64? CDN?
     author: string,
@@ -23,7 +23,8 @@ export type User = {
     lastName: string,
     email: string,
     createdEvents: string[],
-    joinedEvents: string[]
+    joinedEvents: string[],
+    icsKey: string
 }
 
 export const exampleEvent: Event = {
@@ -32,7 +33,7 @@ export const exampleEvent: Event = {
     desc: 'Please join us to save the turtles. Food will be provided.',
     time: '2023-09-16T00:00:00Z',
     image: 'https://picsum.photos/900/900',
-    place: 'WALC basement',
+    location: 'WALC basement',
     author: 'jlkbhadgkc', // TODO
     attendees: [],
     tags: ['Food', 'Activism']
