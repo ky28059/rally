@@ -1,12 +1,14 @@
 'use client'
 
-import {signInWithPopup} from '@firebase/auth';
-import {OAuthProvider} from 'firebase/auth';
-import {useAuth} from 'reactfire';
+import {useAuth, useFirestore, useFirestoreDoc} from 'reactfire';
+import {signInWithPopup, OAuthProvider} from 'firebase/auth';
+import {doc, getDoc, setDoc} from 'firebase/firestore';
 import {User} from '@/util/events';
+
 
 export default function SignInButton() {
     const auth = useAuth();
+    const firestore = useFirestore();
 
     async function signInWithMicrosoft() {
         const provider = new OAuthProvider('microsoft.com');
@@ -16,13 +18,21 @@ export default function SignInButton() {
             const user = result.user;
 
             const names = user.displayName?.split(" ")!;
-            const parsedUser: User = {
-                id: user.uid,
-                firstName: names[0],
-                lastName: names.at(-1)!,
-                email: user.email!,
-                createdEvents: [],
-                joinedEvents: []
+
+            // Query the reference to the user's document; if it doesn't exist, create it.
+            const reference = doc(firestore, 'users', user.uid);
+            const document = await getDoc(reference);
+
+            if (!document.exists()) {
+                const parsedUser: User = {
+                    id: user.uid,
+                    firstName: names[0],
+                    lastName: names.at(-1)!, // TODO: last name parsing
+                    email: user.email!,
+                    createdEvents: [],
+                    joinedEvents: []
+                }
+                await setDoc(reference, parsedUser);
             }
             console.log('User info:', user);
         } catch (error) {
@@ -31,10 +41,8 @@ export default function SignInButton() {
     }
 
     return (
-        <div className="mb-3">
-            <button onClick={signInWithMicrosoft} className="bg-blue-500 text-white px-4 py-2 rounded">
-                Sign In {/* Use the text property here */}
-            </button>
-        </div>
+        <button onClick={signInWithMicrosoft} className="bg-blue-500 text-white px-4 py-2 my-4 rounded">
+            Sign In
+        </button>
     )
 }
