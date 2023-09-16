@@ -1,8 +1,16 @@
 import type {Metadata} from 'next';
+import {Pacifico} from 'next/font/google';
+
 import Event from '@/app/Event';
 import Footer from '@/components/Footer';
+
 import {exampleEvent} from '@/app/event/[id]/page';
 
+
+const pacifico = Pacifico({
+    weight: '400',
+    subsets: ['latin']
+});
 
 export const metadata: Metadata = {
     description: '...'
@@ -18,7 +26,7 @@ export default function Home() {
                     className="absolute inset-0 w-full h-full object-cover object-center- -z-10"
                 />
                 <div className="container">
-                    <h1 className="text-3xl mb-2">[ rally. ]</h1>
+                    <h1 className="text-6xl mb-6" style={pacifico.style}>rally.</h1>
                     join events please join events please join events please join events please join events
                     please join events please join events please join events please join events please join events
                     please join events please join events please join events please join events please join events
