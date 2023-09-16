@@ -29,7 +29,7 @@ export const exampleEvent: Event = {
     place: 'WALC basement',
     author: 'jlkbhadgkc', // TODO
     participants: [],
-    tags: []
+    tags: ['Food']
 }
 
 // TODO: profile picture?

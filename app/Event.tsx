@@ -1,6 +1,7 @@
 'use client'
 
 import {useState} from 'react';
+import {DateTime} from 'luxon';
 import CenteredModal from '@/components/CenteredModal';
 import type {Event} from '@/app/event/[id]/page';
 
@@ -29,6 +30,22 @@ export default function Event(props: Event) {
                 <h1 className="font-bold text-4xl mb-3">
                     {props.title}
                 </h1>
+                <div className="grid grid-cols-[8rem,_1fr] mb-3 gap-y-1">
+                    <strong className="text-gray-700">Date</strong>
+                    <div>
+                        {DateTime.fromISO(props.time).toLocaleString(DateTime.DATETIME_FULL)}
+                    </div>
+
+                    <strong className="text-gray-700">Tags</strong>
+                    <div>
+                        {props.tags.map(tag => (
+                            <div className="rounded-full text-xs py-1 px-2 bg-blue-400/30 text-blue-400 w-max">
+                                {tag}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
                 {props.desc}
             </CenteredModal>
         </>
