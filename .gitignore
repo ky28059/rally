@@ -19,6 +19,7 @@
 .DS_Store
 *.pem
 .idea
+key.json
 
 # debug
 npm-debug.log*

@@ -1,9 +1,6 @@
 import type {Metadata} from 'next';
-import {exampleEvent} from '@/util/events';
-
-import Event from '@/app/Event';
+import Events from '@/app/Events';
 import Footer from '@/components/Footer';
-import Header from '@/components/Header';
 
 
 export const metadata: Metadata = {
@@ -13,7 +10,7 @@ export const metadata: Metadata = {
 export default function Home() {
     return (
         <div>
-            <section className="py-12 bg-black/50 text-white relative">
+            <section className="pt-36 pb-16 bg-black/50 text-white relative">
                 <img
                     src="/banner.jpg"
                     alt="Banner image"
@@ -26,15 +23,7 @@ export default function Home() {
                 </div>
             </section>
 
-            <section className="container grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] xl:grid-cols-4 gap-4 py-8">
-                <Event {...exampleEvent} />
-                <Event {...exampleEvent} />
-                <Event {...exampleEvent} />
-                <Event {...exampleEvent} />
-                <Event {...exampleEvent} />
-                <Event {...exampleEvent} />
-                <Event {...exampleEvent} />
-            </section>
+            <Events />
 
             <Footer />
         </div>

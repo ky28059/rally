@@ -25,7 +25,7 @@ export default function Event(props: Event) {
                     <div className="flex flex-wrap gap-x-4 justify-between mb-1">
                         <h3 className="font-semibold">{props.title}</h3>
                         <div className="text-xs font-semibold bg-gray-100 text-gray-700 rounded py-1 px-2">
-                            {DateTime.fromISO(props.time).toLocaleString(DateTime.DATETIME_SHORT)}
+                            {DateTime.fromISO(props.startTime).toLocaleString(DateTime.DATETIME_SHORT)}
                         </div>
                     </div>
                     {props.tags.length !== 0 && (
@@ -48,7 +48,7 @@ export default function Event(props: Event) {
                 <div className="grid grid-cols-[8rem,_1fr] mb-3 gap-y-1">
                     <strong className="text-gray-700">Date:</strong>
                     <div>
-                        {DateTime.fromISO(props.time).toLocaleString(DateTime.DATETIME_FULL)}
+                        {DateTime.fromISO(props.startTime).toLocaleString(DateTime.DATETIME_FULL)}
                     </div>
 
                     {props.location && (<>

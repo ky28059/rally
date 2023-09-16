@@ -1,9 +1,12 @@
+import admin from 'firebase-admin'
+
 export type Event = {
     id: string,
     title: string,
     desc: string,
     location?: string,
-    time: string, // ISO
+    startTime: string, // ISO
+    endTime: string, // ISO
     image?: string, // base64? CDN?
     author: string,
     attendees: Attendee[],
@@ -24,14 +27,14 @@ export type User = {
     email: string,
     createdEvents: string[],
     joinedEvents: string[],
-    icsKey: string
 }
 
 export const exampleEvent: Event = {
     id: 'ailystvdc', // TODO
     title: 'Example event',
     desc: 'Please join us to save the turtles. Food will be provided.',
-    time: '2023-09-16T00:00:00Z',
+    startTime: '2023-09-16T00:00:00Z',
+    endTime: '2023-09-16T01:00:00Z',
     image: 'https://picsum.photos/900/900',
     location: 'WALC basement',
     author: 'jlkbhadgkc', // TODO
