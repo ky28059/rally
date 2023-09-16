@@ -3,7 +3,7 @@
 import {useState} from 'react';
 import {DateTime} from 'luxon';
 import CenteredModal from '@/components/CenteredModal';
-import type {Event} from '@/app/event/[id]/page';
+import {Event} from '@/util/events';
 import Link from 'next/link';
 
 
@@ -28,13 +28,15 @@ export default function Event(props: Event) {
                             {DateTime.fromISO(props.time).toLocaleString(DateTime.DATETIME_SHORT)}
                         </div>
                     </div>
-                    <div className="flex gap-1 mb-1.5">
-                        {props.tags.map(tag => (
-                            <div className="rounded-full text-xs py-0.5 px-1.5 bg-blue-400/30 text-blue-400 w-max font-semibold">
-                                {tag}
-                            </div>
-                        ))}
-                    </div>
+                    {props.tags.length !== 0 && (
+                        <div className="flex gap-1 mb-1.5">
+                            {props.tags.map(tag => (
+                                <div className="rounded-full text-xs py-0.5 px-1.5 bg-blue-400/30 text-blue-400 w-max font-semibold">
+                                    {tag}
+                                </div>
+                            ))}
+                        </div>
+                    )}
                     <p className="text-sm line-clamp-1">{props.desc}</p>
                 </div>
             </div>
@@ -49,7 +51,7 @@ export default function Event(props: Event) {
                         {DateTime.fromISO(props.time).toLocaleString(DateTime.DATETIME_FULL)}
                     </div>
 
-                    {location && (<>
+                    {props.place && (<>
                         <strong className="text-gray-700">Location:</strong>
                         <div>{props.place}</div>
                     </>)}
@@ -67,7 +69,7 @@ export default function Event(props: Event) {
                 </div>
 
                 {props.desc}
-                
+
                 <Link href={`/event/${props.id}`} className="mt-3 focus:outline-none text-gray-600 hover:underline text-right">
                     More info --{'>'}
                 </Link>

@@ -1,10 +1,11 @@
 import type {Metadata} from 'next';
 import {Pacifico} from 'next/font/google';
+import {exampleEvent} from '@/util/events';
 
 import Event from '@/app/Event';
 import Footer from '@/components/Footer';
-
-import {exampleEvent} from '@/app/event/[id]/page';
+import SignUpButton from '@/components/SignUpButton';
+import SignInButton from '@/components/SignInButton';
 
 
 const pacifico = Pacifico({
@@ -19,6 +20,8 @@ export const metadata: Metadata = {
 export default function Home() {
     return (
         <div className="">
+            <SignUpButton />
+            <SignInButton />
             <header className="py-12 bg-black/50 text-white relative">
                 <img
                     src="/banner.jpg"
@@ -26,7 +29,9 @@ export default function Home() {
                     className="absolute inset-0 w-full h-full object-cover object-center- -z-10"
                 />
                 <div className="container">
-                    <h1 className="text-6xl mb-6" style={pacifico.style}>rally.</h1>
+                    <h1 className="text-6xl mb-6" style={pacifico.style}>
+                        rally.
+                    </h1>
                     join events please join events please join events please join events please join events
                     please join events please join events please join events please join events please join events
                     please join events please join events please join events please join events please join events

@@ -1,6 +1,7 @@
 import type {ReactNode} from 'react';
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import type {Metadata} from 'next'
+import {Inter} from 'next/font/google'
+import FirebaseProviders from '@/components/FirebaseProviders';
 
 import './globals.css'
 
@@ -15,8 +16,10 @@ export const metadata: Metadata = {
 export default function Layout(props: { children: ReactNode }) {
     return (
         <html lang="en">
-            <body className={inter.className}>
-                {props.children}
+            <body className={inter.className + ' relative'}>
+                <FirebaseProviders>
+                    {props.children}
+                </FirebaseProviders>
             </body>
         </html>
     )
