@@ -18,7 +18,7 @@ export default function Home() {
                     className="absolute inset-0 w-full h-full object-cover object-center- -z-10"
                 />
                 <div className="container">
-                    <h1 className="text-3xl mb-2">[name or smth]</h1>
+                    <h1 className="text-3xl mb-2">[ rally. ]</h1>
                     join events please join events please join events please join events please join events
                     please join events please join events please join events please join events please join events
                     please join events please join events please join events please join events please join events
