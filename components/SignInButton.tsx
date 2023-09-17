@@ -30,7 +30,6 @@ export default function SignInButton() {
                     id: user.uid,
                     name: user.displayName!,
                     email: user.email!,
-                    createdEvents: [],
                     joinedEvents: []
                 }
                 await setDoc(reference, parsedUser);

@@ -16,7 +16,6 @@ export type User = {
     id: string,
     name: string,
     email: string,
-    createdEvents: string[],
     joinedEvents: string[],
 }
 

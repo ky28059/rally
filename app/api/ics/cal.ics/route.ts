@@ -18,7 +18,11 @@ export async function GET(request: Request) {
             summary: event.title,
             description: event.desc,
             location: event.location,
-            url: (process.env.NODE_ENV === "production" ? "https://rally-xi.vercel.app" : "http://localhost:3000") + "/event/" + event.id
+            url: (process.env.NODE_ENV === "production"
+                    ? "https://rally-xi.vercel.app"
+                    : "http://localhost:3000")
+                + "/event/"
+                + event.id,
         });
     })
 
