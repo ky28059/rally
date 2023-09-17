@@ -1,5 +1,3 @@
-import admin from 'firebase-admin'
-
 export type Event = {
     id: string,
     title: string,

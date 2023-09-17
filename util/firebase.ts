@@ -2,11 +2,9 @@ import admin from 'firebase-admin'
 import type {Event, User} from '@/util/events'
 
 
-/*
 admin.initializeApp({
     credential: admin.credential.cert('key.json')
 })
-*/
 
 export async function getAllEvents() {
     const collection = await admin.firestore().collection('events').get();

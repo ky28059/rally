@@ -9,7 +9,29 @@ type TagSelectorProps = {
 }
 
 const defaultTags = [
-    'tag 1', 'tag 2', 'tag 3', 'Option 4'
+    'Activism',
+    'Music',
+    'Visual Arts',
+    'Performing Arts',
+    'Film',
+    'Lecture',
+    'Books',
+    'Fashion',
+    'Food',
+    'Drinks',
+    'Festival',
+    'Charity',
+    'Sports',
+    'Family',
+    'Gaming',
+    'Study',
+    'Conference',
+    'Convention',
+    'Networking',
+    'Career Fair',
+    'Tournament',
+    'Technology',
+    'Party',
 ];
 
 export default function TagSelector(props: TagSelectorProps) {
