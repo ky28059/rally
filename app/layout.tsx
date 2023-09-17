@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function Layout(props: { children: ReactNode }) {
     return (
-        <html lang="en" className="h-full">
+        <html lang="en" className="h-full scroll-smooth">
             <body className={inter.className + ' relative flex flex-col h-full'}>
                 <FirebaseProviders>
                     <Header />

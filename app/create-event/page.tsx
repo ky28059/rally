@@ -24,6 +24,8 @@ export default function CreateEventForm() {
     const firestore = useFirestore();
     const {status, data: user} = useUser();
 
+    const [loading, setLoading] = useState(false);
+
     const [title, setTitle] = useState('');
     const [desc, setDesc] = useState('');
 
@@ -32,8 +34,8 @@ export default function CreateEventForm() {
     const [location, setLocation] = useState('');
 
     const {data: buildings} = useFirestoreCollectionData(collection(firestore, 'buildings'));
-    const filtered = buildings?.filter(data => data.Building.toLowerCase().includes(query.toLowerCase())
-        || data.Tags.toLowerCase().includes(query.toLowerCase()));
+    const filtered = buildings?.filter(data => data.name.toLowerCase().includes(query.toLowerCase())
+        || data.abbr.toLowerCase().includes(query.toLowerCase()));
 
     const [startDate, setStartDate] = useState(DateTime.now());
     const [endDate, setEndDate] = useState(DateTime.now().plus({hours: 1}));
@@ -56,6 +58,7 @@ export default function CreateEventForm() {
     }, [status])
 
     async function createEvent() {
+        setLoading(true)
         const {id} = await (await fetch('/api/uuid')).json();
 
         let imageURI = null;
@@ -99,7 +102,7 @@ export default function CreateEventForm() {
                     id="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Stop climate change"
+                    placeholder="Title of event"
                     required
                     className="border border-gray-300 rounded focus:outline-none focus-visible:ring-2 py-1 px-3.5 mb-4"
                 />
@@ -137,8 +140,8 @@ export default function CreateEventForm() {
                         />
                         <AnimatedCombobox className="absolute left-0 top-full z-50 bg-white shadow-lg py-2 rounded-md w-max">
                             {filtered?.slice(0, 5).map(data => (
-                                <Combobox.Option value={data.Tags} key={data.Tags} className="cursor-pointer px-4 hover:bg-gray-100 transition duration-100 py-1">
-                                    {data.Building} ({data.Tags})
+                                <Combobox.Option value={data.abbr} key={data.abbr} className="cursor-pointer px-4 hover:bg-gray-100 transition duration-100 py-1">
+                                    {data.name} ({data.abbr})
                                 </Combobox.Option>
                             ))}
                         </AnimatedCombobox>
@@ -201,7 +204,8 @@ export default function CreateEventForm() {
 
                 <button
                     onClick={createEvent}
-                    className= "rounded font-semibold px-4 py-1.5 bg-yellow-400 hover:shadow-md hover:shadow-yellow-600 transition duration-200"
+                    className= "rounded font-semibold px-4 py-1.5 bg-yellow-400 hover:shadow-md hover:shadow-yellow-600 transition duration-200 disabled:opacity-50 hover:disabled:shadow-none"
+                    disabled={loading}
                 >
                     Create event
                 </button>

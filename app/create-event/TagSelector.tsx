@@ -23,7 +23,7 @@ export default function TagSelector(props: TagSelectorProps) {
     const [query, setQuery] = useState('');
     const filteredTags = defaultTags.filter((tag) => tag.toLowerCase().includes(query.toLowerCase())
         && tag.toLowerCase() !== query.toLowerCase()
-        && !props.tags.includes(tag));
+        && !props.tags.includes(tag)).slice(0, 15);
 
     return (
         <div className="mb-4">
