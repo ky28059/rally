@@ -61,6 +61,13 @@ export default function EventTabs() {
                 {!joinedEvents?.length && (
                     <p>No upcoming events... <Link href="/" className="text-blue-400">RSVP for one?</Link></p>
                 )}
+
+                <a
+                    href={`webcal://rally-xi.vercel.app/api/ics/cal.ics?uid=${user?.uid}`}
+                    className="block text-gray-600 hover:underline mt-2"
+                >
+                    Add joined events to calendar
+                </a>
             </Tab.Panel>
         </Tab.Group>
     )
