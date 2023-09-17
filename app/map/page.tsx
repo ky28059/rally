@@ -45,10 +45,10 @@ export default function InteractiveMap() {
         events.forEach(event => {
             if (!event.location) return;
             const locationFirst = event.location.split(' ')[0].toLowerCase();
-            const buildingMatch: Building | undefined = buildings?.find(building =>
+            const buildingMatch = buildings?.find(building =>
                 building.name.toLowerCase() === locationFirst
                 || building.abbr.toLowerCase() === locationFirst
-            );
+            ) as Building | undefined;
             if (buildingMatch) {
                 if (!locs.has(buildingMatch)) locs.set(buildingMatch, []);
                 locs.get(buildingMatch)?.push(event);
