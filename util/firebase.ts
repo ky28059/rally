@@ -6,7 +6,7 @@ admin.initializeApp({
     credential: admin.credential.cert({
         projectId: process.env.PROJECT_ID,
         clientEmail: process.env.CLIENT_EMAIL,
-        privateKey: process.env.PRIVATE_KEY.replaceAll('\\n', '\n')
+        privateKey: process.env.PRIVATE_KEY!.replaceAll('\\n', '\n')
     })
 })
 
