@@ -1,5 +1,10 @@
+import type {Metadata} from 'next';
 import SignInButton from '@/components/SignInButton';
 
+
+export const metadata: Metadata = {
+    title: 'Authentication required'
+}
 
 export default function AuthRequired() {
     return (

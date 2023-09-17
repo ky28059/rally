@@ -1,3 +1,4 @@
+import type {Metadata} from 'next';
 import {DateTime} from 'luxon';
 import {getEventById, getUserById} from '@/util/firebase';
 import {notFound} from 'next/navigation';
@@ -10,6 +11,18 @@ import {BsCalendar2Fill} from 'react-icons/bs';
 import {IoMdPin} from 'react-icons/io';
 import {BiSolidUser} from 'react-icons/bi';
 
+
+export async function generateMetadata({params}: {params: {id: string}}): Promise<Metadata> {
+    const event = await getEventById(params.id); // TODO: caching?
+    if (!event) return {
+        title: 'Event not found'
+    }
+
+    return {
+        title: event.title
+        // TODO: fancy description?
+    }
+}
 
 export default async function EventPage({params}: {params: {id: string}}) {
     const event = await getEventById(params.id);
@@ -37,9 +50,11 @@ export default async function EventPage({params}: {params: {id: string}}) {
                             DateTime.fromISO(event.endTime).toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY)
                         }
                     </div>
-                    <div className="flex gap-2 items-center">
-                        <IoMdPin /> {event.location}
-                    </div>
+                    {event.location && (
+                        <div className="flex gap-2 items-center">
+                            <IoMdPin /> {event.location}
+                        </div>
+                    )}
                 </div>
 
                 <img

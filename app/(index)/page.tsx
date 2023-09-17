@@ -4,10 +4,6 @@ import Footer from '@/components/Footer';
 import {BsChevronCompactDown} from 'react-icons/bs';
 
 
-export const metadata: Metadata = {
-    description: 'Rally is the ultimate platform for Purdue students looking to connect, engage, and discover new experiences. From study groups to sports events, movie nights to sexual education workshops, Rally is your go-to hub for all things campus life.'
-}
-
 export default function Home() {
     return (
         <div>
