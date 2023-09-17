@@ -25,7 +25,10 @@ export default function Header() {
                 </h1>
             </Link>
 
-            <nav className="flex items-center pl-4 mr-auto text-gray-400 font-light tracking-tight">
+            <nav className="flex gap-3.5 items-center pl-4 mr-auto text-gray-400 font-light tracking-tight">
+                <Link href="/map">
+                    Explore
+                </Link>
                 <Link href="/create-event">
                     Organize
                 </Link>
