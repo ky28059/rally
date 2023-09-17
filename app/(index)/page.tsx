@@ -1,5 +1,5 @@
 import type {Metadata} from 'next';
-import Events from '@/app/Events';
+import Events from './Events';
 import Footer from '@/components/Footer';
 import {BsChevronCompactDown} from 'react-icons/bs';
 

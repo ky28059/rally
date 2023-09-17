@@ -6,7 +6,7 @@ import { Tab } from '@headlessui/react';
 import {useRouter} from 'next/navigation';
 import {useFirestore, useFirestoreCollectionData, useUser} from 'reactfire';
 import {collection} from 'firebase/firestore';
-import Event from '@/app/Event';
+import Event from '@/components/Event';
 import {Event as EventProps} from '@/util/events';
 import SignInButton from '@/components/SignInButton';
 

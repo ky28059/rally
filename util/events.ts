@@ -19,6 +19,13 @@ export type User = {
     joinedEvents: string[],
 }
 
+export type Building = {
+    name: string
+    lat: number
+    lng: number
+    abbr: string
+}
+
 export const exampleEvent: Event = {
     id: 'ailystvdc', // TODO
     title: 'Example event',
