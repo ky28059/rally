@@ -13,7 +13,7 @@ export default function EventSidebar(props: {id: string}) {
     const mounted = useMounted();
 
     return (
-        <aside className="sticky h-max top-24 pl-10 border-l border-gray-500 w-72">
+        <aside className="flex-none sticky h-max top-24 pl-10 border-l border-gray-500 w-72">
             <h3 className="font-semibold mb-1 text-xl">Info</h3>
             <p>
                 {!mounted ? '-' : event?.attendees.length ?? '-'} attending

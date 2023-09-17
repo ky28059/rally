@@ -5,7 +5,7 @@ import {BsChevronCompactDown} from 'react-icons/bs';
 
 
 export const metadata: Metadata = {
-    description: '...'
+    description: 'Rally is the ultimate platform for Purdue students looking to connect, engage, and discover new experiences. From study groups to sports events, movie nights to sexual education workshops, Rally is your go-to hub for all things campus life.'
 }
 
 export default function Home() {
@@ -22,9 +22,9 @@ export default function Home() {
                         Explore Purdue. Find events that interest you.
                     </h1>
                     <p>
-                        join events please join events please join events please join events please join events
-                        please join events please join events please join events please join events please join events
-                        please join events please join events please join events please join events please join events
+                        Rally is the ultimate platform for Purdue students looking to connect, engage, and discover new
+                        experiences. From study groups to sports events, movie nights to club callouts, Rally is your
+                        go-to hub for all things campus life.
                     </p>
                     <a href="#events" className="text-inherit text-4xl w-full mt-2 flex justify-center">
                         <BsChevronCompactDown className="animate-bounce" />
