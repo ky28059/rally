@@ -7,7 +7,7 @@ export type Event = {
     location?: string,
     startTime: string, // ISO
     endTime: string, // ISO
-    image?: string, // base64? CDN?
+    image: string | null,
     author: string,
     attendees: Attendee[],
     tags: string[]

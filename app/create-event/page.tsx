@@ -1,34 +1,64 @@
 'use client'
 
-import {useState} from 'react';
-// import DateTimePicker from 'react-datetime-picker';
-import {useFirestore, useFirestoreDoc, useStorage, useUser} from 'reactfire';
-import {getDownloadURL, ref, uploadBytes} from 'firebase/storage';
-import {doc, setDoc} from 'firebase/firestore';
+import {useEffect, useState} from 'react';
+import {useRouter} from 'next/navigation';
+import {Combobox} from '@headlessui/react';
+import {DateTime} from 'luxon';
 import {AiOutlineDownload} from 'react-icons/ai';
 import type {Event} from '@/util/events';
+
+// Firebase
+import {useFirestore, useFirestoreCollectionData, useStorage, useUser} from 'reactfire';
+import {getDownloadURL, ref, uploadBytes} from 'firebase/storage';
+import {doc, collection, setDoc} from 'firebase/firestore';
+
+// Components
+import AnimatedCombobox from '@/components/AnimatedCombobox';
+import AutoResizingTextArea from '@/components/AutoResizingTextArea';
+import DateTimePicker from '@/components/DateTimePicker';
+import TagSelector from '@/app/create-event/TagSelector';
 
 
 export default function CreateEventForm() {
     const storage = useStorage();
     const firestore = useFirestore();
-    const {data: user} = useUser();
+    const {status, data: user} = useUser();
 
     const [title, setTitle] = useState('');
     const [desc, setDesc] = useState('');
+
+    const [building, setBuilding] = useState('');
+    const [query, setQuery] = useState('')
     const [location, setLocation] = useState('');
-    const [dateTime, setDateTime] = useState(new Date());
-    const [tags, setTags] = useState('');
+
+    const {data: buildings} = useFirestoreCollectionData(collection(firestore, 'buildings'));
+    const filtered = buildings?.filter(data => data.Building.toLowerCase().includes(query.toLowerCase())
+        || data.Tags.toLowerCase().includes(query.toLowerCase()));
+
+    const [startDate, setStartDate] = useState(DateTime.now());
+    const [endDate, setEndDate] = useState(DateTime.now().plus({hours: 1}));
+
+    const [tags, setTags] = useState<string[]>([]);
 
     const [dragging, setDragging] = useState(false);
     const [image, setImage] = useState<File | undefined>(undefined);
 
-    // const {status, data: buildings} = useFirestoreDoc(doc(firestore, 'buildings', 'buildings'))
+    const {push} = useRouter();
+
+    function updateStartDate(date: DateTime) {
+        setStartDate(date);
+        if (date.valueOf() >= endDate.valueOf()) setEndDate(date.plus({hours: 1}));
+    }
+
+    useEffect(() => {
+        if (status !== 'success') return;
+        if (!user) push('/auth-required?redirectTo=/create-event');
+    }, [status])
 
     async function createEvent() {
         const {id} = await (await fetch('/api/uuid')).json();
 
-        let imageURI;
+        let imageURI = null;
         if (image) {
             const reference = ref(storage, `images/${id}.${image.type}`);
             await uploadBytes(reference, image);
@@ -39,25 +69,23 @@ export default function CreateEventForm() {
             id,
             title,
             desc,
-            location,
-            startTime: dateTime.toISOString(), // TODO
-            endTime: dateTime.toISOString(), // TODO
+            location: building && location ? `${building} ${location}` : building ? building : location,
+            startTime: startDate.toISO()!,
+            endTime: endDate.toISO()!,
             image: imageURI,
             author: user!.uid,
             attendees: [],
-            tags: []
+            tags
         } satisfies Event);
+
+        push('/#events');
     }
 
     return (
-        <div className="h-full flex justify-center items-center relative bg-black/50 px-4 pt-32 pb-16">
-            <img
-                src="/banner.jpg"
-                alt="Banner image"
-                className="absolute inset-0 w-full h-full object-cover object-center- -z-10"
-            />
+        <div className="h-full flex justify-center items-center relative px-4 pt-32 pb-16 bg-[url('/banner.jpg')] bg-cover bg-center bg-fixed">
+            <div className="absolute inset-0 bg-black/50 w-full h-full" />
 
-            <main className="bg-white shadow-md rounded-md px-10 sm:px-16 py-10 flex flex-col w-[48rem] max-w-full">
+            <main className="bg-white shadow-md rounded-md px-10 sm:px-16 py-10 flex flex-col w-[48rem] max-w-full z-10">
                 <h5 className="text-3xl font-bold mb-4">
                     Create an Event
                 </h5>
@@ -76,11 +104,18 @@ export default function CreateEventForm() {
                     className="border border-gray-300 rounded focus:outline-none focus-visible:ring-2 py-1 px-3.5 mb-4"
                 />
 
+                <label htmlFor="tags" className="font-semibold text-sm">
+                    Tags (max. 10)
+                </label>
+                <TagSelector
+                    tags={tags}
+                    setTags={setTags}
+                />
+
                 <label htmlFor="desc" className="font-semibold text-sm">
                     Description
                 </label>
-                <input
-                    type="text"
+                <AutoResizingTextArea
                     name="desc"
                     id="desc"
                     value={desc}
@@ -93,32 +128,54 @@ export default function CreateEventForm() {
                 <label htmlFor="location" className="font-semibold text-sm">
                     Location
                 </label>
-                <input
-                    type="text"
-                    name="location"
-                    id="location"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    placeholder="WALC 6049"
-                    required
-                    className="border border-gray-300 rounded focus:outline-none focus-visible:ring-2 py-1 px-3.5 mb-4"
-                />
+                <div className="flex gap-1 mb-4">
+                    <Combobox as="div" className="relative" value={building} onChange={setBuilding}>
+                        <Combobox.Input
+                            onChange={(event) => setQuery(event.target.value)}
+                            placeholder="WALC"
+                            className="border border-gray-300 rounded focus:outline-none focus-visible:ring-2 py-1 px-3.5"
+                        />
+                        <AnimatedCombobox className="absolute left-0 top-full z-50 bg-white shadow-lg py-2 rounded-md w-max">
+                            {filtered?.slice(0, 5).map(data => (
+                                <Combobox.Option value={data.Tags} key={data.Tags} className="cursor-pointer px-4 hover:bg-gray-100 transition duration-100 py-1">
+                                    {data.Building} ({data.Tags})
+                                </Combobox.Option>
+                            ))}
+                        </AnimatedCombobox>
+                    </Combobox>
+
+                    <input
+                        type="text"
+                        name="location"
+                        id="location"
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
+                        placeholder="6049"
+                        required
+                        className="border border-gray-300 rounded focus:outline-none focus-visible:ring-2 py-1 px-3.5"
+                    />
+                </div>
 
                 <label htmlFor="dateTimePicker" className="font-semibold text-sm">
                     Event Date and Time
                 </label>
-                <br />
-                {/*
-                TODO:
-                <DateTimePicker
-                    id="dateTimePicker"
-                    name ="dateTime"
-                    onChange={setDateTime}
-                    value={dateTime}
-                    required
-                    className="border border-gray-300 rounded focus:outline-none focus-visible:ring-2 py-1 px-4 mb-1"
-                />
-                */}
+
+                <div className="flex gap-2 text-sm items-center pl-2 mb-1">
+                    Start time:
+                    <DateTimePicker
+                        date={startDate}
+                        setDate={updateStartDate}
+                    />
+                </div>
+
+                <div className="flex gap-2 text-sm items-center pl-2 mb-4">
+                    End time:
+                    <DateTimePicker
+                        date={endDate}
+                        setDate={setEndDate}
+                        earliestDate={startDate}
+                    />
+                </div>
 
                 <p className="font-semibold text-sm mb-1">Image</p>
                 <label
@@ -141,20 +198,6 @@ export default function CreateEventForm() {
                     />
                     <p className="text-sm">{image?.name ?? 'No file selected.'}</p>
                 </label>
-
-                <label htmlFor="tags" className="font-semibold text-sm">
-                    Tags
-                </label>
-                <input
-                    type="text"
-                    name="tags"
-                    id="tags"
-                    value={tags}
-                    onChange={(e) => setTags(e.target.value)}
-                    placeholder="WALC 6049"
-                    required
-                    className="border border-gray-300 rounded focus:outline-none focus-visible:ring-2 py-1 px-3.5 mb-8"
-                />
 
                 <button
                     onClick={createEvent}

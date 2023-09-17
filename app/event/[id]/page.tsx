@@ -1,5 +1,7 @@
 import {DateTime} from 'luxon';
 import {exampleEvent} from '@/util/events';
+import {getEventById, getUserById} from '@/util/firebase';
+import {notFound} from 'next/navigation';
 
 // Components
 import SignUpForm from '@/app/event/[id]/SignUpForm';
@@ -12,7 +14,10 @@ import {BiSolidUser} from 'react-icons/bi';
 
 
 export default async function EventPage({params}: {params: {id: string}}) {
-    const event = getEvent(params.id);
+    const event = await getEventById(params.id);
+    if (!event) notFound();
+
+    const author = await getUserById(event.author);
 
     return (
         <div className="container pt-32 pb-16 flex gap-12 justify-between">
@@ -25,7 +30,7 @@ export default async function EventPage({params}: {params: {id: string}}) {
 
                 <div className="flex flex-wrap gap-x-10 text-gray-700 mb-4">
                     <div className="flex gap-2 items-center">
-                        <BiSolidUser /> {event.author}
+                        <BiSolidUser /> {author!.firstName} {author!.lastName}
                     </div>
                     <div className="flex gap-2 items-center">
                         <BsCalendar2Fill />
@@ -42,7 +47,7 @@ export default async function EventPage({params}: {params: {id: string}}) {
                 </div>
 
                 <img
-                    src={event.image}
+                    src={event.image ?? '/default.jpg'}
                     className="w-full rounded aspect-video object-center object-cover mb-4"
                 />
                 <p>{event.desc}</p>
@@ -69,8 +74,4 @@ export default async function EventPage({params}: {params: {id: string}}) {
             </aside>
         </div>
     )
-}
-
-function getEvent(id: string) {
-    return exampleEvent;
 }

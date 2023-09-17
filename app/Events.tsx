@@ -12,12 +12,14 @@ export default function Events() {
     const {data: events} = useFirestoreCollectionData(collection(firestore, 'events'));
 
     return (
-        <section className="container py-8">
-            {events?.map(event => (
+        <section className="container py-8" id="events">
+            {!!events?.length && (
                 <div className="grid grid-cols-[repeat(auto-fill,_minmax(250px,_1fr))] xl:grid-cols-4 gap-4">
-                    <Event {...event as EventProps} key={event.id} />
+                    {events?.map(event => (
+                        <Event {...event as EventProps} key={event.id} />
+                    ))}
                 </div>
-            ))}
+            )}
 
             {!events?.length && (
                 <p>No upcoming events... <Link href="/create-event" className="text-blue-400">create one here</Link>!</p>

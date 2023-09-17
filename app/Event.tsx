@@ -17,7 +17,7 @@ export default function Event(props: Event) {
                 onClick={() => setOpen(true)}
             >
                 <img
-                    src={props.image}
+                    src={props.image ?? '/default.jpg'}
                     alt="..."
                     className="w-full h-48 object-cover object-center"
                 />
@@ -29,7 +29,7 @@ export default function Event(props: Event) {
                         </div>
                     </div>
                     {props.tags.length !== 0 && (
-                        <div className="flex gap-1 mb-1.5">
+                        <div className="flex gap-1 mb-1.5 flex-wrap">
                             {props.tags.map(tag => (
                                 <div className="rounded-full text-xs py-0.5 px-1.5 bg-blue-400/30 text-blue-400 w-max font-semibold">
                                     {tag}
@@ -58,7 +58,7 @@ export default function Event(props: Event) {
 
                     {props.tags.length !== 0 && (<>
                         <strong className="text-gray-700">Tags:</strong>
-                        <div className="flex gap-1">
+                        <div className="flex gap-1 flex-wrap">
                             {props.tags.map(tag => (
                                 <div className="rounded-full text-xs py-1 px-2 bg-blue-400/30 text-blue-400 w-max font-semibold">
                                     {tag}

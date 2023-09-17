@@ -1,5 +1,6 @@
 'use client'
 
+import {useRouter, useSearchParams} from 'next/navigation';
 import {useAuth, useFirestore, useFirestoreDoc} from 'reactfire';
 import {signInWithPopup, OAuthProvider} from 'firebase/auth';
 import {doc, getDoc, setDoc} from 'firebase/firestore';
@@ -9,6 +10,9 @@ import {User} from '@/util/events';
 export default function SignInButton() {
     const auth = useAuth();
     const firestore = useFirestore();
+
+    const params = useSearchParams();
+    const {push} = useRouter();
 
     async function signInWithMicrosoft() {
         const provider = new OAuthProvider('microsoft.com');
@@ -34,6 +38,9 @@ export default function SignInButton() {
                 }
                 await setDoc(reference, parsedUser);
             }
+
+            if (params.get('redirectTo')) push(params.get('redirectTo')!);
+
             console.log('User info:', user);
         } catch (error) {
             console.error('Error during Microsoft sign-in:', error);

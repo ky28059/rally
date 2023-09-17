@@ -51,7 +51,11 @@ export default function SignUpForm() {
                     placeholder="javascript47@purdue.edu"
                     className="border border-gray-300 rounded focus:outline-none focus-visible:ring-2 py-1 px-4 mb-4"
                 />
-                <button className="rounded font-semibold px-4 py-1.5 bg-gradient-to-br from-yellow-300 via-orange-400 to-yellow-500 hover:shadow-md hover:shadow-yellow-600 transition duration-200">Sign up</button>
+                <button
+                    className="rounded font-semibold px-4 py-1.5 bg-yellow-400 hover:shadow-md hover:shadow-yellow-600 transition duration-200"
+                >
+                    Sign up
+                </button>
             </form>
         </>
     )
