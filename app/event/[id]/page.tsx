@@ -1,5 +1,4 @@
 import {DateTime} from 'luxon';
-import {exampleEvent} from '@/util/events';
 import {getEventById, getUserById} from '@/util/firebase';
 import {notFound} from 'next/navigation';
 

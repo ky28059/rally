@@ -8,31 +8,15 @@ type TagSelectorProps = {
     setTags: (tags: string[]) => void
 }
 
-const defaultTags = [
-    'Activism',
-    'Music',
-    'Visual Arts',
-    'Performing Arts',
-    'Film',
-    'Lecture',
-    'Books',
-    'Fashion',
-    'Food',
-    'Drinks',
-    'Festival',
-    'Charity',
-    'Sports',
-    'Family',
-    'Gaming',
-    'Study',
-    'Conference',
-    'Convention',
-    'Networking',
-    'Career Fair',
-    'Tournament',
-    'Technology',
-    'Party',
-];
+const defaultTags = ['Accounting', 'Activism', 'Aerospace', 'Agriculture', 'Animals',
+    'Biology', 'Books', 'Business', 'Career Fair', 'Charity', 'Chemical Engineering',
+    'Chemistry', 'Civil Engineering', 'Communication', 'Computer Engineering',
+    'Computer Graphics', 'Computer Science', 'Conference', 'Convention', 'Drinks',
+    'Education', 'Electrical Engineering', 'Family', 'Fashion', 'Festival', 'Film',
+    'Finance', 'Food', 'Gaming', 'Health', 'Industrial Engineering', 'Information Technology',
+    'Lecture', 'Marketing', 'Mathematics', 'Mechanical Engineering', 'Medical', 'Music',
+    'Networking', 'Nursing', 'Party', 'Performing Arts', 'Physics', 'Politics', 'Psychology',
+    'Sociology', 'Sports', 'Statistics', 'Study', 'Technology', 'Tournament', 'Visual Arts'];
 
 export default function TagSelector(props: TagSelectorProps) {
     const [selectedTag, setSelectedTag] = useState('');
