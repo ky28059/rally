@@ -1,6 +1,6 @@
 'use client'
 
-import {useEffect, useState} from 'react';
+import {startTransition, useEffect, useState} from 'react';
 import {useRouter} from 'next/navigation';
 import {Combobox} from '@headlessui/react';
 import {DateTime} from 'luxon';
@@ -17,6 +17,7 @@ import AnimatedCombobox from '@/components/AnimatedCombobox';
 import AutoResizingTextArea from '@/components/AutoResizingTextArea';
 import DateTimePicker from '@/components/DateTimePicker';
 import TagSelector from '@/app/create-event/TagSelector';
+import {generateId} from '@/util/uuid';
 
 
 export default function CreateEventForm() {
@@ -59,29 +60,33 @@ export default function CreateEventForm() {
 
     async function createEvent() {
         setLoading(true)
-        const {id} = await (await fetch('/api/uuid')).json();
 
-        let imageURI = null;
-        if (image) {
-            const reference = ref(storage, `images/${id}.${image.type}`);
-            await uploadBytes(reference, image);
-            imageURI = await getDownloadURL(reference);
-        }
+        // TODO: incredibly hacky
+        startTransition(() => void (async () => {
+            const id = await generateId();
 
-        await setDoc(doc(firestore, 'events', id), {
-            id,
-            title,
-            desc,
-            location: building && location ? `${building} ${location}` : building ? building : location,
-            startTime: startDate.toISO()!,
-            endTime: endDate.toISO()!,
-            image: imageURI,
-            author: user!.uid,
-            attendees: [],
-            tags
-        } satisfies Event);
+            let imageURI = null;
+            if (image) {
+                const reference = ref(storage, `images/${id}.${image.type}`);
+                await uploadBytes(reference, image);
+                imageURI = await getDownloadURL(reference);
+            }
 
-        push('/#events');
+            await setDoc(doc(firestore, 'events', id), {
+                id,
+                title,
+                desc,
+                location: building && location ? `${building} ${location}` : building ? building : location,
+                startTime: startDate.toISO()!,
+                endTime: endDate.toISO()!,
+                image: imageURI,
+                author: user!.uid,
+                attendees: [],
+                tags
+            } satisfies Event);
+
+            push('/#events');
+        })())
     }
 
     return (
