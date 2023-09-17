@@ -7,21 +7,14 @@ export type Event = {
     endTime: string, // ISO
     image: string | null,
     author: string,
-    attendees: Attendee[],
+    attendees: string[],
     tags: string[]
-}
-
-type Attendee = {
-    firstName: string,
-    lastName: string,
-    email?: string
 }
 
 // TODO: profile picture?
 export type User = {
     id: string,
-    firstName: string,
-    lastName: string,
+    name: string,
     email: string,
     createdEvents: string[],
     joinedEvents: string[],

@@ -21,8 +21,6 @@ export default function SignInButton() {
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
 
-            const names = user.displayName?.split(" ")!;
-
             // Query the reference to the user's document; if it doesn't exist, create it.
             const reference = doc(firestore, 'users', user.uid);
             const document = await getDoc(reference);
@@ -30,8 +28,7 @@ export default function SignInButton() {
             if (!document.exists()) {
                 const parsedUser: User = {
                     id: user.uid,
-                    firstName: names[0],
-                    lastName: names.at(-1)!, // TODO: last name parsing
+                    name: user.displayName!,
                     email: user.email!,
                     createdEvents: [],
                     joinedEvents: []
