@@ -28,7 +28,9 @@ export async function getEventsOfUser(userId: string) {
     // Check if the user exists
     const user = await admin.firestore().collection('users').doc(userId).get();
     if (!user.exists) return null;
-    return getEventsByIds([...user.get('createdEvents'), ...user.get('joinedEvents')]);
+    return getAllEvents().then(events =>
+        events.filter(event => event.attendees.includes(userId) || event.author == userId)
+    )
 }
 
 export async function getEventsByTags(tags: string[]) {
