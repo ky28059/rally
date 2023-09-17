@@ -5,6 +5,8 @@ import SubmitConfetti from '@/app/event/[id]/SubmitConfetti';
 import {useFirestore, useFirestoreDocData, useUser} from 'reactfire';
 import {doc, updateDoc} from 'firebase/firestore';
 import {User} from 'firebase/auth';
+import {v4 as uuid} from 'uuid';
+
 
 export default function SignUpForm(props: {id: string}) {
     const {data: user} = useUser();
@@ -36,7 +38,7 @@ function SignUpButton(props: {id: string, user: User}) {
         await updateDoc(doc(firestore, 'events', props.id), 'attendees', [...eventDocument.attendees, props.user.uid]);
 
         // Spawn a new instance
-        const confettiInstance = <SubmitConfetti />
+        const confettiInstance = <SubmitConfetti key={uuid()} />
         setConfettiInstances([...confettiInstances, confettiInstance])
         setTimeout(() =>
             setConfettiInstances((instances) => instances.filter(instance => instance !== confettiInstance)), 10000)

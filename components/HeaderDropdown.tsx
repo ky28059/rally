@@ -18,9 +18,9 @@ export default function HeaderDropdown() {
                 {user?.displayName}
             </Menu.Button>
             <AnimatedMenu className="absolute right-0 top-full origin-top-right bg-black py-1.5 rounded-l rounded-br w-48 shadow-xl z-10">
-                <Link href={`/joined-events`}>
+                <Link href={`/your-events`}>
                     <HeaderDropdownItem>
-                        Joined events
+                        Your events
                     </HeaderDropdownItem>
                 </Link>
                 <HeaderDropdownItem onClick={() => signOut(auth)}>
